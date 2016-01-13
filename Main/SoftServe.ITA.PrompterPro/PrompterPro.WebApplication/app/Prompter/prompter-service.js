@@ -29,7 +29,7 @@
     	    $scope.showDialog = false;
     	    $scope.speed = 2;
     	    $scope.velocity = startVelocity;
-    	    $scope.speedHandlPlay = 10;
+    	    $scope.speedHandlPlay = 15;
     	    $scope.currentSize = $scope.textSizes[2];
     	    $scope.textSize = 90;
     	    $scope.leftPadding = 0;
@@ -54,7 +54,7 @@
                     ///
                     var sections = $scope.script.Sections;
                     var area = $('#area')
-                    if (area.length == 0) {
+                    if (area.children.length > 0) {
                         area.empty();
                     }
                     _.each(sections, function (section) {
@@ -165,21 +165,27 @@
                     textBox.css({ 'transform': 'matrix(1, 0, 0, 1, 0, 0)' });
                 }
             }
+
+            $scope.textAreaposition = textBox.scrollTop();
             
-            broadcastHub.client.handPlayBack = function () {
+            broadcastHub.client.handPlayBack = function (textAreaposition) {
                 clearInterval(animation);
+                $scope.textAreaposition = textAreaposition;
                 animation = setInterval(function () {
                     if (textBox.scrollTop() > 0) {
-                        textBox.scrollTop(textBox.scrollTop() - $scope.speedHandlPlay);
+                        $scope.textAreaposition -= $scope.speedHandlPlay;
+                        textBox.scrollTop($scope.textAreaposition);
                     }
                 }, $scope.velocity);
             }
 
-            broadcastHub.client.handPlay = function () {
+            broadcastHub.client.handPlay = function (textAreaposition) {
                 clearInterval(animation);
+                $scope.textAreaposition = textAreaposition;
                 animation = setInterval(function () {
                     if (textBox.scrollTop() <= textBox.get(0).scrollHeight) {
-                        textBox.scrollTop(textBox.scrollTop() + $scope.speedHandlPlay);
+                        $scope.textAreaposition += $scope.speedHandlPlay;
+                        textBox.scrollTop($scope.textAreaposition);
                     }
                 }, $scope.velocity);
             }

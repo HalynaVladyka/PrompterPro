@@ -377,14 +377,14 @@ namespace SoftServe.ITA.PrompterPro.WebApplication.Hubs
 		    Clients.OthersInGroup(GetGroupName()).mirrorText(isMirroredX, isMirroredY);
 		}
 
-		public void HandPlay()
+        public void HandPlay(double TextAreaPosition)
 		{
-		    Clients.All.handPlay();
+            Clients.All.handPlay(TextAreaPosition);
 		}
 
-		public void HandPlayBack()
+        public void HandPlayBack(double TextAreaPosition)
 		{
-		    Clients.All.handPlayBack();
+            Clients.All.handPlayBack(TextAreaPosition);
 		}
 
 	    public void PadRight(int percentage)
